@@ -1,0 +1,118 @@
+.App {
+  margin: 50px auto;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  color: #eee;
+  font-size: 1.125rem;
+  font-family: system-ui;
+  line-height: 1.5;
+}
+
+.wrapper {
+  width: max(900px, 100% - 3rem);
+  margin-inline: auto;
+}
+
+table {
+  background-color: #323232;
+  position: relative;
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+
+}
+
+th, td, caption {
+  padding: 1rem;
+}
+
+td {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+caption, th {
+  text-align: left;
+}
+
+caption {
+  background: hsl(0 0% 0%);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+th {
+  background: hsl(0 0% 0% / 0.5);
+}
+
+tr:nth-of-type(2n) {
+  background: hsl(0 0% 0% / 0.1);
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  width: 500px;
+}
+
+input {
+  font-size: 20px;
+  width: 100%;
+  padding: 0.6em;
+  border-radius: 9px;
+  border: 0;
+}
+
+hr {
+  width: 70%;
+  margin: 30px auto;
+  border: 0;
+  height: 1px;
+  background-color: orange;
+}
+
+::placeholder {
+  color: rgb(250, 233, 202);
+  font-weight: 100;
+}
+
+.del-btn {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  background-color: #ff040494;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  transition: 0.5s;
+  box-shadow: rgba(182, 165, 165, 0.35) 0px 5px 15px;
+}
+
+td:hover .del-btn {
+  background-color: #ff860494;
+  scale: 1.2;
+  transform: rotateX(180deg);
+}
+
+th>i {
+  margin-left: 10px;
+  font-size: 24px;
+  position: relative;
+  top: 4px;
+  color: orangered;
+  cursor: pointer;
+}
+
+table.blur {
+  filter: blur(0px);
+}
