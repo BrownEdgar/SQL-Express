@@ -1,26 +1,28 @@
 var express = require('express');
 var router = express.Router();
+const validColumnNames = ['title', 'price', 'quantity']
 
-/* GET home page. */
-router.get('/products', async function (req, res, next) {
-  const { id, sort } = req.query;
-  let sql;
-  if (id) {
-    sql = `SELECT * FROM Products WHERE product_id = ?`
-  } else if (sort) {
-    console.log(1111, sort)
-    sql = `SELECT * FROM Products ORDER BY ${sort} desc;`
-  } else {
-    sql = `SELECT * FROM Products`
+const checkSort = (req, res, next) => {
+  const { sort, column } = req.query;
+
+  if (sort && validColumnNames.includes(column)) {
+    req.sql = `SELECT * FROM Products ORDER by ${column} ${sort}`
   }
-  console.log(sql)
+  next()
+}
+
+router.get('/products', checkSort, async function (req, res) {
+  console.log(req.sql)
+  const sql = req.sql ? req.sql : `SELECT * FROM Products`
   try {
-    const [result, field] = await res.app.db.query(sql, id);
+    const [result] = await res.app.db.query(sql);
     res.json(result)
   } catch (error) {
+    console.log('error', error)
     res.json({ message: error.message })
   }
 })
+
 
 router.post('/products', async function (req, res, next) {
   const { body } = req;

@@ -6,11 +6,11 @@ export default function App() {
 
   const [products, setproducts] = useState([]);
   const [loading, setLoading] = useState(false)
+  const [sortOption, setSortOption] = useState('desc')
 
   const getAll = async () => {
     const response = await fetch('http://localhost:3000/products')
     const data = await response.json();
-    console.log(data)
     setproducts(data)
   }
 
@@ -30,25 +30,26 @@ export default function App() {
       }
     })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(getAll)
       .catch(err => console.log(err))
       .finally(() => e.target.reset())
   }
 
   useEffect(() => {
     getAll()
-  }, [loading])
+  }, [])
 
   const sortBy = (column) => {
     setLoading(true)
-    fetch(`http://localhost:3000/products?sort=${column}`, {
-      method: "GET",
-
-    }).then(res => res.json())
-      .then(data => setproducts(data))
+    fetch(`http://localhost:3000/products?sort=${sortOption}&column=${column}`).then(res => res.json())
+      .then(data => {
+        setproducts(data)
+        console.log(data)
+      })
       .catch(err => console.log(err))
       .finally(() => {
         setTimeout(setLoading, 1000, false)
+        setSortOption(sortOption === 'desc' ? 'asc' : 'desc')
       })
 
   }
@@ -80,8 +81,8 @@ export default function App() {
       <hr />
 
       <table className={loading ? 'blur' : ''}>
-        {loading ? <Loader /> : null}
-        <thead >
+
+        <thead>
           <tr>
             <th>N</th>
             <th>
@@ -100,6 +101,7 @@ export default function App() {
           </tr>
         </thead>
         <tbody>
+          {loading ? <Loader /> : null}
           {products.map((elem, index) => {
             return (
               <tr key={elem.product_id}>
